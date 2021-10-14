@@ -1,5 +1,6 @@
 package cn.shopex.demo.user.service;
 
+import cn.shopex.demo.common.domain.PageData;
 import cn.shopex.demo.user.domain.CreateUserReq;
 import cn.shopex.demo.user.domain.UpdateUserReq;
 import cn.shopex.demo.user.entity.User;
@@ -15,8 +16,7 @@ public interface UserService {
      *
      * @return 用户信息
      */
-    List<User> getPageUserInfo();
-
+    PageData<User> getPageUserInfo(String name, Integer age, String address, String mobile, Integer page, Integer size);
 
     /**
      * 创建用户

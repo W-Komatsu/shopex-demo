@@ -2,6 +2,8 @@ package cn.shopex.demo.user.controller;
 
 
 import cn.shopex.demo.common.domain.CommonResponse;
+import cn.shopex.demo.common.domain.CommonResponsePageGeneric;
+import cn.shopex.demo.common.domain.PageData;
 import cn.shopex.demo.exception.BizServiceException;
 import cn.shopex.demo.user.domain.CreateUserReq;
 import cn.shopex.demo.user.domain.UpdateUserReq;
@@ -25,20 +27,14 @@ public class UserController {
     }
 
     @GetMapping("page")
-    public CommonResponse getPageUserInfo(@RequestParam(value = "name", required = false) String name,
-                                          @RequestParam(value = "age", required = false) Integer age,
-                                          @RequestParam(value = "address", required = false) String address,
-                                          @RequestParam(value = "mobile", required = false) String mobile,
-                                          @RequestParam(value = "page", defaultValue = "0") Integer page,
-                                          @RequestParam(value = "size", defaultValue = "10") Integer size){
-        System.out.println("page = " + page);
-        System.out.println("size = " + size);
-        User user = new User();
-        user.setName("张三");
-        user.setAge(25);
-        user.setAddress("徐汇");
-        List<User> res = userService.getPageUserInfo();
-        return new CommonResponse(res, null, null);
+    public CommonResponsePageGeneric<User> getPageUserInfo(@RequestParam(value = "name", required = false) String name,
+                                                           @RequestParam(value = "age", required = false) Integer age,
+                                                           @RequestParam(value = "address", required = false) String address,
+                                                           @RequestParam(value = "mobile", required = false) String mobile,
+                                                           @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                           @RequestParam(value = "size", defaultValue = "10") Integer size){
+        PageData<User> res = userService.getPageUserInfo(name, age, address, mobile, page, size);
+        return CommonResponsePageGeneric.<User>builder().data(res).build();
     }
     @PutMapping
     public CommonResponse createUser(@RequestBody @Valid CreateUserReq request){

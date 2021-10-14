@@ -1,8 +1,11 @@
 package cn.shopex.demo.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * @author wangxiaosong
@@ -10,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class User implements Serializable {
     private Long id;
     private String name;
     private Integer age;

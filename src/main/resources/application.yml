@@ -14,3 +14,7 @@ mybatis:
   configuration:
     # 驼峰命名转换
     map-underscore-to-camel-case: true
+
+logging:
+  level:
+    cn.shopex.demo: DEBUG

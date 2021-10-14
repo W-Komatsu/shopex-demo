@@ -1,5 +1,6 @@
 package cn.shopex.demo.user.service.impl;
 
+import cn.shopex.demo.common.domain.PageData;
 import cn.shopex.demo.exception.BizServiceException;
 import cn.shopex.demo.user.domain.CreateUserReq;
 import cn.shopex.demo.user.domain.UpdateUserReq;
@@ -28,14 +29,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getPageUserInfo() {
-        return userMapper.selectAllUser();
+    public PageData<User> getPageUserInfo(String name, Integer age, String address, String mobile, Integer page, Integer size) {
+        List<User> list = userMapper.getUserByComplexCondition(name, age, address, mobile, (page-1) * size, size);
+        Long count = userMapper.getUserCountByComplexCondition(name, age, address, mobile);
+        return new PageData<>(list, count);
     }
 
     @Override
     @Transactional(rollbackFor = BizServiceException.class)
     public void createUser(CreateUserReq req) {
-
         int salt = 123;
         // 对密码进行加密处理
         String password = DigestUtils.md5DigestAsHex((req.getPassword() + "/" + salt).getBytes());
